@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "281651905795",
+    "firebase_url": "https://callkitsample.firebaseio.com",
+    "project_id": "callkitsample",
+    "storage_bucket": "callkitsample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281651905795:android:5bfa589656be0066",
+        "android_client_info": {
+          "package_name": "com.tech.shashankg.callkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281651905795-m5mp1mq57dp7g1bepp8t791f5ads42dn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tech.shashankg.callkit",
+            "certificate_hash": "e556f59c125cbfaf9666f1fe51a1e5bafe032a99"
+          }
+        },
+        {
+          "client_id": "281651905795-ur9qm0e6anqi7b5tphviiuuu8lft81dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsdi0JSOV67B9h08oZh3D0exBQCMEiBxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281651905795-ur9qm0e6anqi7b5tphviiuuu8lft81dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

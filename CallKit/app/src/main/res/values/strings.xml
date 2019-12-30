@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CallKit</string>
+
+    <string name="device_register">Register your Device</string>
+    <string name="phone_number_hint">phone number</string>
+    <!--<string name="app_name">CallKit</string>-->
+</resources>

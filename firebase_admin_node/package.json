@@ -1,0 +1,25 @@
+{
+  "name": "node_vcx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "camo": "^0.12.3",
+    "core-util-is": "^1.0.2",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.4.0",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.3.0",
+    "nodemon": "^1.19.1",
+    "npm-install-peers": "^1.2.1",
+    "xtend": "^4.0.2"
+  }
+}
