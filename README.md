@@ -1,4 +1,4 @@
-# demo framework for app to app calling with EnableX android toolkit and firebase 
+# Demo framework for app to app calling with EnableX android toolkit and firebase 
 
 This Application is explaining to send push notification messages from one registered mobile number to another registered mobile number. and by getting a push notification message app will initiate one to one call.
 
@@ -43,6 +43,7 @@ Caller call to registered mobile number by using push notification message. A me
 	"caller_phone_number":"3238329829",
 	"type":"calling"
 }
+
 ![calling](./calling.png)
 ![outgoingcall](./outgoingcall.png)
 
@@ -68,5 +69,6 @@ If receiver rejected the incoming call then message will be sent to the caller t
 	"aller_phone_number":"3238329829",
 	"type":"reject"
 }
+
 ![conference](./conference.png)
 
