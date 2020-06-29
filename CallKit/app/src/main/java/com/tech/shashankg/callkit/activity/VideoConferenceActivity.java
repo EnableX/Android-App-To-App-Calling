@@ -382,6 +382,26 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
 
     }
 
+    @Override
+    public void onConferencessExtended(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onConferenceRemainingDuration(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckDropUser(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckDestroy(JSONObject jsonObject) {
+
+    }
+
     private boolean getAudioOnly(String str) {
         if (str.equalsIgnoreCase("audio") || str.equalsIgnoreCase("audioOnly")) {
             return true;
@@ -585,7 +605,8 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
                     RadioButton btn = (RadioButton) group.getChildAt(x);
                     if (btn.getId() == checkedId) {
                         Log.e("selected RadioButton->", btn.getText().toString());
-                        enxRooms.setAudioDevice(btn.getText().toString());
+                        enxRooms.switchMediaDevice(btn.getText().toString());
+                       // enxRooms.setAudioDevice(btn.getText().toString());
                         dialog.dismiss();
                     }
                 }

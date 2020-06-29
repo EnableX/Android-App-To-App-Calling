@@ -40,13 +40,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.android.support:multidex:1.0.3'
 
-
-    implementation 'org.webrtc:google-webrtc:1.0.28513'
-    implementation('io.socket:socket.io-client:1.0.0') {
-        // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
-    }
-    implementation(name: 'EnxRtcAndroid-release_1.5.3', ext: 'aar')
+        implementation 'com.enxrtc:Enx-Rtc-Android:1.6.0'
+//    implementation 'org.webrtc:google-webrtc:1.0.28513'
+//    implementation('io.socket:socket.io-client:1.0.0') {
+//        // excluding org.json which is provided by Android
+//        exclude group: 'org.json', module: 'json'
+//    }
+//    implementation(name: 'EnxRtcAndroid-release_1.5.3', ext: 'aar')
 }
 
 apply plugin: 'com.google.gms.google-services'
