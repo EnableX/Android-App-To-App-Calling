@@ -14,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,8 +36,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import enx_rtc_android.Controller.EnxActiveTalkerViewObserver;
 import enx_rtc_android.Controller.EnxPlayerView;
 import enx_rtc_android.Controller.EnxRoom;
 import enx_rtc_android.Controller.EnxRoomObserver;
@@ -46,7 +45,7 @@ import enx_rtc_android.Controller.EnxRtc;
 import enx_rtc_android.Controller.EnxStream;
 import enx_rtc_android.Controller.EnxStreamObserver;
 
-public class VideoConferenceActivity extends AppCompatActivity implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener {
+public class VideoConferenceActivity extends AppCompatActivity implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener, EnxActiveTalkerViewObserver {
     EnxRtc enxRtc;
     String token;
     String name;
@@ -80,6 +79,9 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
             android.Manifest.permission.RECORD_AUDIO
     };
 
+    RecyclerView mRecyclerView;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +107,7 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
         list = new ArrayList<>();
         gson = new Gson();
         enxRtc = new EnxRtc(this, this, this);
-        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObjet(), null, null);
-        enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
+        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObjet(), getRoomInfo(), new JSONArray());
         enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
         Log.e("localStream", localStream.toString());
         localStream.attachRenderer(enxPlayerView);
@@ -126,14 +127,6 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
         camera.setOnClickListener(this);
         volume.setOnClickListener(this);
         moderator.setOnTouchListener(new OnDragTouchListener(moderator));
-
-        participant.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                handleTouchListner();
-                return false;
-            }
-        });
     }
 
     private void setUI() {
@@ -179,6 +172,36 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
         return jsonObject;
     }
 
+    public JSONObject getRoomInfo() {
+        JSONObject jsonObject = new JSONObject();
+        try{
+            jsonObject.put("allow_reconnect",true);
+            jsonObject.put("number_of_attempts",3);
+            jsonObject.put("timeout_interval",15);
+            jsonObject.put("activeviews","view");//view
+
+            JSONObject object = new JSONObject();
+            object.put("audiomute",true);
+            object.put("videomute",true);
+            object.put("bandwidth",true);
+            object.put("screenshot",true);
+            object.put("avatar",true);
+
+            object.put("iconColor", getResources().getColor(R.color.colorPrimary));
+            object.put("iconHeight",30);
+            object.put("iconWidth",30);
+            object.put("avatarHeight",200);
+            object.put("avatarWidth",200);
+            jsonObject.put("playerConfiguration",object);
+
+            jsonObject.put("forceTurn",false);
+            jsonObject.put("chat_only",false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     private void getPreviousIntent() {
         if (getIntent() != null) {
             token = getIntent().getStringExtra("token");
@@ -191,6 +214,7 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
         enxRooms = enxRoom;
         if (enxRoom != null) {
             enxRooms.publish(localStream);
+            enxRoom.setActiveTalkerViewObserver(this);
         }
     }
 
@@ -208,20 +232,12 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
     @Override
     public void onUserConnected(JSONObject jsonObject) {
         Log.e("userConnected", jsonObject.toString());
-//        UserModel userModel = gson.fromJson(jsonObject.toString(), UserModel.class);
-//        userArrayList.add(userModel);
     }
 
     @Override
     public void onUserDisConnected(JSONObject jsonObject) {
         Log.e("userConnected", jsonObject.toString());
         enxRooms.disconnect();
-//        UserModel userModel = gson.fromJson(jsonObject.toString(), UserModel.class);
-//        for (UserModel userModel1 : userArrayList) {
-//            if (userModel1.getClientId().equalsIgnoreCase(userModel.getClientId())) {
-//                userArrayList.remove(userModel);
-//            }
-//        }
     }
 
     @Override
@@ -253,87 +269,24 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
         this.finish();
     }
 
+    @Override
+    public void onActiveTalkerList(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+        if (recyclerView == null) {
+            participant.removeAllViews();
+
+        } else {
+            participant.removeAllViews();
+            participant.addView(recyclerView);
+
+        }
+    }
+
     EnxPlayerView activePlayerView;
 
     @Override
     public void onActiveTalkerList(final JSONObject jsonObject) {
-        Log.e("activeList", jsonObject.toString());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (list != null) {
-                        for (int i = 0; i < list.size(); i++) {
-                            EnxPlayerView playerView = list.get(i).getEnxPlayerView();
-                            EnxStream enxStream = list.get(i).getEnxStream();
-                            if (playerView != null) {
-                                playerView.release();
-                                playerView = null;
-                            }
-                            if (enxStream != null) {
-                                enxStream.detachRenderer();
-                            }
-                        }
-                        list.removeAll(list);
-                        list = null;
-                    }
-
-                    Map<String, EnxStream> map = enxRooms.getRemoteStreams();
-                    JSONArray jsonArray = jsonObject.getJSONArray("activeList");
-
-
-                    if (jsonArray.length() == 0) {
-                        dummyText.setVisibility(View.VISIBLE);
-                        audioOnlyText.setVisibility(View.GONE);
-                        View temp = participant.getChildAt(0);
-                        participant.removeView(temp);
-                        return;
-                    } else {
-                        dummyText.setVisibility(View.GONE);
-                    }
-
-                    list = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonStreamid = jsonArray.getJSONObject(i);
-                        String strteamID = jsonStreamid.getString("streamId");
-                        String stremName = jsonStreamid.getString("name");
-                        String mediatype = jsonStreamid.getString("mediatype");
-                        EnxStream stream = map.get(strteamID);
-                        JSONObject attributes = stream.getAttributes();
-                        attributes.put("name", stremName);
-                        attributes.put("actualName", stremName);
-
-                        HorizontalViewModel horizontalRecyclerViewModel = new HorizontalViewModel();
-                        EnxPlayerView remotePlayer = new EnxPlayerView(VideoConferenceActivity.this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
-                        horizontalRecyclerViewModel.setEnxStream(stream);
-                        horizontalRecyclerViewModel.setEnxPlayerView(remotePlayer);
-                        horizontalRecyclerViewModel.setMediaType(mediatype);
-                        horizontalRecyclerViewModel.setAudioOnly(getAudioOnly(mediatype));
-                        list.add(horizontalRecyclerViewModel);
-
-                        if (i == 0) {
-                            if (activePlayerView == null) {
-                                activePlayerView = new EnxPlayerView(VideoConferenceActivity.this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
-                                activePlayerView.setZOrderMediaOverlay(false);
-                                participant.addView(activePlayerView);
-                            }
-                            stream.attachRenderer(activePlayerView);
-                            actionBar.setTitle(stremName);
-                            if (getAudioOnly(mediatype)) {
-                                audioOnlyText.setVisibility(View.VISIBLE);
-                                View temp1 = participant.getChildAt(0);
-                                participant.removeView(temp1);
-                            } else {
-                                audioOnlyText.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        // Depricated
     }
 
     @Override
@@ -402,23 +355,17 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
 
     }
 
-    private boolean getAudioOnly(String str) {
-        if (str.equalsIgnoreCase("audio") || str.equalsIgnoreCase("audioOnly")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public void onAudioEvent(JSONObject jsonObject) {
         try {
             String message = jsonObject.getString("msg");
-            if (message.equalsIgnoreCase("success")) {
-                if (!isAudioMuted) {
+            if (!isAudioMuted) {
+                if (message.equalsIgnoreCase("Audio Off")) {
                     mute.setImageResource(R.drawable.mute);
                     isAudioMuted = true;
-                } else {
+                }
+            } else {
+                if (message.equalsIgnoreCase("Audio On")) {
                     mute.setImageResource(R.drawable.unmute);
                     isAudioMuted = false;
                 }
@@ -483,11 +430,6 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
                         enxPlayerView.release();
                         enxPlayerView = null;
                     }
-
-                    if (activePlayerView != null) {
-                        activePlayerView.release();
-                        activePlayerView = null;
-                    }
                     enxRooms.disconnect();
                 } else {
                     finish();
@@ -496,9 +438,9 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
             case R.id.mute:
                 if (localStream != null) {
                     if (!isAudioMuted) {
-                        localStream.muteSelfAudio(false);
-                    } else {
                         localStream.muteSelfAudio(true);
+                    } else {
+                        localStream.muteSelfAudio(false);
                     }
                 }
                 break;
@@ -506,10 +448,10 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
                 if (localStream != null) {
                     if (!isVideoMuted) {
                         isVideoMuted = true;
-                        localStream.muteSelfVideo(false);
+                        localStream.muteSelfVideo(true);
                     } else {
                         isVideoMuted = false;
-                        localStream.muteSelfVideo(true);
+                        localStream.muteSelfVideo(false);
                     }
                 }
                 break;
@@ -557,16 +499,6 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
             }
         }
         return true;
-    }
-
-    private void handleTouchListner() {
-        if (touchView) {
-            bottomView.setVisibility(View.VISIBLE);
-            touchView = false;
-        } else {
-            bottomView.setVisibility(View.GONE);
-            touchView = true;
-        }
     }
 
     private void showRadioButtonDialog() {
