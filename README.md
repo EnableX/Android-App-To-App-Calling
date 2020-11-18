@@ -136,8 +136,7 @@ If receiver rejected the incoming call then message will be sent to the caller t
 ![conference](./conference.png)
 
 
-## Demo
+## Trial
 
-Visit Demo Zone (https://portal.enablex.io/demo-zone/) to request a Guided Demo or Demo Access to different type of application available there.
-
-You may also try our Video Meeting and Webinar solutions here: https://web.enablex.io/ucaas/covid-19/
+1. Try a quick Video Call: https://demo.enablex.io/
+2. Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/
