@@ -5,13 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +18,14 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.tech.shashankg.callkit.R;
@@ -284,10 +286,7 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
 
     EnxPlayerView activePlayerView;
 
-    @Override
-    public void onActiveTalkerList(final JSONObject jsonObject) {
-        // Depricated
-    }
+
 
     @Override
     public void onEventError(final JSONObject jsonObject) {
@@ -352,6 +351,61 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
 
     @Override
     public void onAckDestroy(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckPinUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckUnpinUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onPinnedUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onRoomAwaited(EnxRoom enxRoom, JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onUserAwaited(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckForApproveAwaitedUser(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckForDenyAwaitedUser(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckAddSpotlightUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckRemoveSpotlightUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onUpdateSpotlightUsers(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onRoomBandwidthAlert(JSONObject jsonObject) {
 
     }
 
@@ -556,4 +610,6 @@ public class VideoConferenceActivity extends AppCompatActivity implements EnxRoo
             enxRtc = null;
         }
     }
+
+
 }
