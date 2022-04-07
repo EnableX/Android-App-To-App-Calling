@@ -88,7 +88,7 @@ private String room_Id = "";
  
 ## 5. Exploring the sample app
 
-### 5.1 Registerd Device: 
+### 5.1 Register Device: 
 
 This Application starts with registering the device with a Middleware server. Integrate firebase cloud messaging into an application. After FCM successfully registration, you will get an FCM token. After getting a token, the mobile number should be registered using node js API(Middleware Server). 
 
