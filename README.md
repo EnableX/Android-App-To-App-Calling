@@ -1,10 +1,12 @@
-# Real-Time Video Communication App with EnableX Android Toolkit and Firebase: A Comprehensive Guide
+# EnableX Android Toolkit: App-to-App Calling with Firebase Integration Guide
 
-Creating an App-to-App Calling Demo with EnableX Android Toolkit and Firebase
+Explore a robust demo framework for seamless app-to-app calling using the EnableX Android toolkit in conjunction with Firebase. 
 
-Our app showcases seamless push notification messaging between registered mobile numbers, triggering 1-to-1 calls upon message receipt. To illustrate this Android Sample App, a middleware server is essential for mobile number registration and push notification dispatch.
+This application showcases the capability to send push notification messages between two registered mobile numbers, enabling 1-to-1 calls upon receiving a push notification within the app. 
 
-In this setup, we rely on Firebase Cloud Messaging as our middleware server. It not only manages mobile number registration but also facilitates push notifications to registered users, enabling efficient communication and call initiation.
+To effectively demonstrate this Android Sample App, a middleware server is crucial for mobile number registration and push notification delivery. In this context, we employ Firebase Cloud Messaging as the middleware server, which not only stores registered mobile numbers but also efficiently dispatches push notifications to the designated mobile devices. 
+
+Discover the power of this integrated solution, designed to enhance your app-to-app communication experience. 
 
 ## 2. How to get started
 
