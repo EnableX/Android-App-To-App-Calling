@@ -74,14 +74,14 @@ private String room_Id = "";
  * Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and post-session reporting.  
 
  To know more about Server API, go to:
- https://www.enablex.io/developer/video-api/server-api
+ https://developer.enablex.io/docs/references/apis/video-api/index/
  
  ## 4. Android Toolkit
 
  This Sample Application uses EnableX Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. Please update   your Application with latest version of EnableX Android Toolkit as and when a new release is available.
 
- * Documentation: https://www.enablex.io/developer/video-api/client-api/android-toolkit/
- * Download: https://www.enablex.io/developer/video-api/client-api/android-toolkit/
+ * Documentation: https://developer.enablex.io/docs/references/sdks/video-sdk/android-sdk/index/
+ * Download: https://developer.enablex.io/docs/references/sdks/video-sdk/android-sdk/index/
  
 ## 5. Exploring the sample app
 
