@@ -14,7 +14,7 @@ Discover the power of this integrated solution, designed to enhance your app-to-
 
 #### 2.1.1 App Id and App Key 
 
-* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
+* Register with EnableX [https://www.enablex.io/free-trial/] 
 * Login to the EnableX Portal
 * Create your Application Key
 * Get your App ID and App Key delivered to your email
@@ -134,4 +134,4 @@ If receiver rejects the incoming call then message will be sent to the caller th
 ## Trial
 
 1. Try a quick Video Call: https://demo.enablex.io/
-2. Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/
+2. Sign up for a free trial https://www.enablex.io/free-trial/
